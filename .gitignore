@@ -1,0 +1,8 @@
+*.pyc
+*.json
+build
+dist
+thronescli.egg-info
+.venv
+venv
+sources

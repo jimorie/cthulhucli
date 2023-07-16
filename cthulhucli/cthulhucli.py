@@ -751,10 +751,12 @@ def sortkey(*sortfields):
         for field in sortfields:
             if field == "subtypes":
                 sortkey.append(len(card["subtypes"].split(".")))
-            elif field in card:
-                sortkey.append(-1 if card[field] == "X" else card[field])
-            else:
+            elif field not in card:
                 sortkey.append(format_card_field(card, field, color=False))
+            elif card[field] is None:
+                sortkey.append(-2)
+            else:
+                sortkey.append(-1 if card[field] == "X" else card[field])
         return sortkey
 
     return _sortkey

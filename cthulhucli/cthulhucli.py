@@ -48,6 +48,7 @@ FACTION_ALIASES = {
 KEYWORDS = [
     "Dormant",
     "Fast",
+    "Fated",
     "Heroic",
     "Invulnerability",
     "Loyal",

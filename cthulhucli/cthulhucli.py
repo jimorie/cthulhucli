@@ -24,7 +24,7 @@ from click import (
 )
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 CARD_TYPES = ["Character", "Conspiracy", "Event", "Story", "Support"]

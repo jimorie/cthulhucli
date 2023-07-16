@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import csv
@@ -74,9 +74,17 @@ def main(sourcefile, targetfile):
                 if "<br>" in row["TITLE"]:
                     name, descriptor = row["TITLE"].split("<br>", 1)
                     descriptor = descriptor.strip()
+                elif ', "' in row["TITLE"]:
+                    name, descriptor = row["TITLE"].split(",", 1)
+                    descriptor = descriptor.strip()
                 else:
                     name, descriptor = row["TITLE"], None
                 name = name.strip()
+                if name.startswith("\uf020") or name.startswith("\uf076"):
+                    banned = True
+                    name = name.strip("\uf020\uf076").strip()
+                else:
+                    banned = False
                 steadfast = []
                 for code, faction in FACTIONS.items():
                     if name.startswith(code):
@@ -115,7 +123,7 @@ def main(sourcefile, targetfile):
                         "flavor": None,
                         "illustrator": None,
                         "max": 4,
-                        "banned": False,
+                        "banned": banned,
                         "restricted": False,
                     },
                     out,

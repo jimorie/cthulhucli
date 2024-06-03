@@ -1,349 +1,266 @@
-Cthulhu CLI
-===========
+Call of Cthulhu CLI
+===================
 
-A command line interface for browsing cards for [Call of Cthulhu LCG and CCG](https://www.fantasyflightgames.com/en/products/call-of-cthulhu-lcg/).
-
-Why?
-----
-
-Because [CardGameDB](http://www.cardgamedb.com) does not list cards from the CCG era.
-
-Cthulhu CLI also has the ability produce card count breakdowns based on a selected field, with the `--count` option.
+A command line interface for browsing cards from [Call of Cthulhu CCG and LCG](https://www.fantasyflightgames.com/en/products/call-of-cthulhu-lcg/).
 
 Install
 -------
 
-Cthulhu CLI can be installed from [PyPI](https://pypi.python.org/pypi/cthulhucli) using pip:
+Call of Cthulhu CLI can be installed from [PyPI](https://pypi.python.org/pypi/cthulhucli) using pip:
 
     sudo pip install cthulhucli
 
 Options
 -------
 
-Cthulhu CLI has the following options as given by the --help option:
+Call of Cthulhu CLI has the following options as given by the --help option:
 
-    $ cthulhucli --help
-    Usage: cthulhucli [OPTIONS] [SEARCH]...
+```console
+$ cthulhucli --help
+Usage: cthulhucli [OPTIONS] [TEXT]...
 
-      A command line interface for Call of Cthulhu LCG and CCG.
+Options:
+  --ccg          Search CCG era cards only.
+  --lcg          Search LCG era cards only.
+  -v, --verbose  Show more data.
+  --brief        Show one line of data, regardless the level of verbose.
+  --long         Show multiple lines of data, regardless the level of verbose.
+  --show FIELD   Show given field only. Can be repeated to show multiple
+                 fields in given order.
+  --case         Use case sensitive filtering.
+  --exact        Use exact match filtering.
+  --regex        Use regular rexpressions when filtering.
+  --or FIELD     Treat multiple tests for given field with logical
+                 disjunction, i.e. OR-logic instead of AND-logic.
+  --inclusive    Treat multiple tests for different fields with logical
+                 disjunction, i.e. OR-logic instead of AND-logic.
+  --sort FIELD   Sort results by given field.
+  --desc         Sort results in descending order.
+  --group FIELD  Group results by given field.
+  --count FIELD  Print a breakdown of all values for given field.
+  --version      Show the version and exit.
+  --help         Show this message and exit.
 
-      The default search argument matches cards against their name, text or
-      subtypes. See below for more options.
+Field filters:
+  -n, --name TEXT         Filter on matching name.
+  --descriptor TEXT       Filter on matching descriptor.
+  --subtype TEXT          Filter on matching subtypes.
+  -x, --text TEXT         Filter on matching text.
+  --keyword TEXT          Filter on matching keywords.
+  --unique                Filter on uniqueness.
+  --non-unique            Filter on non-uniqueness.
+  --faction FACTION       Filter on matching faction.
+  --faction-isnt FACTION  Filter on non-matching faction.
+  --type CARD TYPE        Filter on matching card type.
+  --type-isnt CARD TYPE   Filter on non-matching card type.
+  --cost NUMBER           Filter on matching cost (number comparison).
+  --skill NUMBER          Filter on matching skill (number comparison).
+  --terror NUMBER         Filter on number of terror icons.
+  --combat NUMBER         Filter on number of combat icons.
+  --arcane NUMBER         Filter on number of arcance icons.
+  --investigation NUMBER  Filter on number of investigation icons.
+  --set TEXT              Filter on matching set.
+  --restricted            Filter on restricted.
+  --non-restricted        Filter on non-restricted.
+  --banned                Filter on banned.
+  --non-banned            Filter on non-banned.
 
-      Options marked with inclusive or exclusive can be repeated to further
-      include or exclude cards, respectively.
-
-      For help and bug reports visit the project on GitHub:
-      https://github.com/jimorie/cthulhucli
-
-    Options:
-      --brief                         Show brief card data.
-      --case                          Use case sensitive matching.
-      --cost NUMBER COMPARISON        Find cards whose cost matches the expression
-                                      (inclusive).
-      --count TEXT                    Show card count breakdown for given field.
-                                      Increase verbosity to also show individual
-                                      cards. Possible fields are: arcane, combat,
-                                      cost, faction, investigation, name,
-                                      restricted, skill, terror, type, unique,
-                                      era.
-      --exact                         Use exact matching.
-      -f, --faction TEXT              Find cards with given faction (inclusive).
-                                      Possible factions are: Agency, Cthulhu,
-                                      Hastur, Lodge, Miskatonic University,
-                                      Neutral, Shub-Niggurath, Silver Twilight,
-                                      Syndicate, The Agency, Yog-Sothoth.
-      --faction-isnt TEXT             Find cards with other than given faction
-                                      (exclusive).
-      --group TEXT                    Sort resulting cards by the given field and
-                                      print group headers. Possible fields are:
-                                      arcane, combat, cost, faction,
-                                      investigation, name, restricted, skill,
-                                      terror, type, unique, era.
-      --inclusive                     Treat multiple options of the same type as
-                                      inclusive rather than exclusive. (Or-logic
-                                      instead of and-logic.)
-      --include-draft                 Include cards only legal in draft format.
-      --name TEXT                     Find cards with matching name. (This is the
-                                      default search.)
-      --non-unique                    Find non-unique cards.
-      -r, --regex                     Use regular expression matching.
-      --set TEXT                      Find cards from matching expansion sets
-                                      (inclusive). Implies --include-draft.
-      --show TEXT                     Show only given fields in non-verbose mode.
-                                      Possible fields are: arcane, combat, cost,
-                                      faction, investigation, name, restricted,
-                                      skill, terror, type, unique, era.
-      --sort TEXT                     Sort resulting cards by the given field.
-                                      Possible fields are: arcane, combat, cost,
-                                      faction, investigation, name, skill, terror,
-                                      type.
-      --skill NUMBER COMPARISON       Find cards whose Skill matches the
-                                      expression (inclusive).
-      --terror NUMBER COMPARISON      Find cards whose Terror matches the
-                                      expression (inclusive).
-      --combat NUMBER COMPARISON      Find cards whose Combat matches the
-                                      expression (inclusive).
-      --arcane NUMBER COMPARISON      Find cards whose Arcane matches the
-                                      expression (inclusive).
-      --investigation NUMBER COMPARISON
-                                      Find cards whose Investigation matches the
-                                      expression (inclusive).
-      --text TEXT                     Find cards with matching text (exclusive).
-      --text-isnt TEXT                Find cards without matching text
-                                      (exclusive).
-      --subtype TEXT                  Find cards with matching subtype
-                                      (exclusive).
-      --subtype-isnt TEXT             Find cards without matching subtype
-                                      (exclusive).
-      --keyword TEXT                  Find cards with matching keyword
-                                      (exclusive). Possible fields are: fast,
-                                      steadfast, toughness, transient, willpower,
-                                      heroic, villainous, invulnerability, loyal.
-      --keyword-isnt TEXT             Find cards without matching keyword
-                                      (exclusive). Possible fields are: fast,
-                                      steadfast, toughness, transient, willpower,
-                                      heroic, villainous, invulnerability, loyal.
-      -t, --type TEXT                 Find cards with matching card type
-                                      (inclusive). Possible types are: Character,
-                                      Conspiracy, Event, Story, Support.
-      --unique                        Find unique cards.
-      -v, --verbose                   Show more card data.
-      --era [All|CCG|LCG]             Specify which era of cards to search.
-                                      [default: LCG]
-      --version                       Show the cthulhucli version: 0.1.0.
-      --help                          Show this message and exit.
+Where:
+  CARD TYPE  One of: character, conspiracy, event, story, support.
+  FACTION    One of: agency, cthulhu, hastur, miskatonic university, neutral,
+             shub-niggurath, silver twilight, syndicate, the agency, yog-
+             sothoth.
+  FIELD      One of: banned, card type, cost, descriptor, faction, icons,
+             keywords, name, restricted, set, skill, subtypes, text,
+             uniqueness.
+  NUMBER     A number optionally prefixed by one of the supported comparison
+             operators: ==, =, !=, !, <=, <, >=, >. With == being the default
+             if only a number is given.
+  TEXT       A text partially matching the field value. The --case, --regex
+             and --exact options can be applied. If prefixed with ! the match
+             is negated.
+```
 
 Examples
 --------
 
 Find a card by its name:
 
-    $ cthulhucli Carl
-    Carl Stanford: Unique. Cthulhu. Character. 3 Cost. 3 Skill. (T)(A).
-    Carl Stanford: Unique. Silver Twilight. Character. 3 Cost. 3 Skill. (C)(A)(I).
+```console
+$ cthulhucli --name Nyarlathotep
+Nyarlathotep: Unique. Neutral. Character. Cost 0. Skill 6. [TTCCA].
+Nyarlathotep: Unique. Neutral. Character. Cost 4. Skill 4. [TCAI].
+Nyarlathotep: Unique. Neutral. Character. Cost 5. Skill 6. [TCAI].
 
-Use the -v flag to show more card data:
+Total count: 3
+```
 
-    $ cthulhucli Carl -v
-    Carl Stanford
-    Deathless Fanatic
-    Sorcerer.
-    Invulnerability.
-    Action: Sacrifice a Cultist character or Mask card to have Carl Stanford gain (C)(C)(A)(A) until the end of the phase.
-    Unique: Yes
-    Faction: Cthulhu
-    Type: Character
-    Cost: 3
-    Skill: 3
-    Icons: (T)(A)
+Print more of the cards' information:
 
-    Carl Stanford
-    Sinister, not necessarily Evil
-    Lodge. Sorcerer.
-    The cost of non-[Silver Twilight] characters cannot be lowered.
-    Action: Pay 1 to choose a Spell or Ritual card in your discard pile and add it to your hand. Limit once per turn.
-    Unique: Yes
-    Faction: Silver Twilight
-    Type: Character
-    Cost: 3
-    Skill: 3
-    Icons: (C)(A)(I)
+```console
+$ cthulhucli --name Nyarlathotep -v
+Nyarlathotep
+The Crawling Chaos
+Ancient One.
+Villainous. Toughness +4.
+Each Avatar of Nyarlathotep character gains (T)(T).
+Action: pay 3 to take control of an Avatar of Nyarlathotep character.
+Unique: Yes
+Faction: Neutral
+Card Type: Character
+Cost: 0
+Skill: 6
+Icons: TTCCA
 
-    Total count: 2
+Nyarlathotep
+The Black Pharaoh
+Ancient One.
+Villainous. Toughness +2.
+During the resource phase, if an opponent wishes to attach a resource to a domain, the resource must be chosen at random from his hand. (Choose the domain first, then randomly determine the resource.)
+Unique: Yes
+Faction: Neutral
+Card Type: Character
+Cost: 4
+Skill: 4
+Icons: TCAI
 
-Use it multiple times for even more card data:
+Nyarlathotep
+The Crawling Chaos
+Ancient One.
+Villainous. Toughness +1. Resilient.
+You may return an Avatar character to your hand to reduce the cost to play Nyarlathotep by 3.
+Disrupt: When you succeed at a story to which Nyarlathotep is committed, sacrifice it to put an Avatar character into play from your hand committed to an unresolved story, if able.
+Unique: Yes
+Faction: Neutral
+Card Type: Character
+Cost: 5
+Skill: 6
+Icons: TCAI
 
-    $ cthulhucli Carl -vv
-    Carl Stanford
-    Deathless Fanatic
-    Sorcerer.
-    Invulnerability.
-    Action: Sacrifice a Cultist character or Mask card to have Carl Stanford gain (C)(C)(A)(A) until the end of the phase.
-    Unique: Yes
-    Faction: Cthulhu
-    Type: Character
-    Cost: 3
-    Transient: No
-    Steadfast: No
-    Skill: 3
-    Icons: (T)(A)
-    Era: LCG
-    Set: Secrets of Arkham
-    Card #: 028
-    Illustrator: Sylvain Vialla
-    Restricted: No
-    Banned: No
+Total count: 3
+```
 
-    Carl Stanford
-    Sinister, not necessarily Evil
-    Lodge. Sorcerer.
-    The cost of non-[Silver Twilight] characters cannot be lowered.
-    Action: Pay 1 to choose a Spell or Ritual card in your discard pile and add it to your hand. Limit once per turn.
-    Unique: Yes
-    Faction: Silver Twilight
-    Type: Character
-    Cost: 3
-    Transient: No
-    Steadfast: No
-    Skill: 3
-    Icons: (C)(A)(I)
-    Era: LCG
-    Set: Seekers of Knowledge
-    Card #: 051
-    Illustrator: Bryce Cook
-    Restricted: No
-    Banned: No
+Find all events with the *Day* or *Night* subtype:
 
-    Total count: 2
+```console
+$ cthulhucli --subtype day --subtype night --or subtype --type event
+Blessed Dawn: The Agency. Event. Cost X.
+The Punishing Sun: Miskatonic University. Event. Cost X.
+Howl of Jackals: Cthulhu. Event. Cost X.
+Enshrouded Sun: Hastur. Event. Cost X.
+Screaming of the Spheres: Yog-Sothoth. Event. Cost X.
+Buzzing of Locusts: Shub-Niggurath. Event. Cost X.
+Blinding Light: Neutral. Event. Cost 4.
+Calling Forth the Abyss: Neutral. Event. Cost 4.
 
-Use filtering options to limit the results.
+Total count: 8
+```
 
-    $ cthulhucli --subtype investigator --combat ">=2" --faction-isnt neutral --non-unique
-    Peeler: The Agency. Character. 2 Cost. 1 Skill. (C)(C).
-    Freelance Photographer: Syndicate. Character. 4 Cost. 2 Skill. (C)(C)(I).
-    Safari Hunter: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Night-shift Security: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Keen-eyed Detective: The Agency. Character. 3 Cost. 3 Skill. (C)(C).
-    Crooked Cop: The Agency. Character. 3 Cost. 2 Skill. (C)(C).
+Find all non-unique Miskatonic *Investigator* characters from the CCG era, grouped by cost:
 
-    Total count: 6
+```console
+$ cthulhucli --non-unique --faction misk --subtype investigator --ccg --group cost
+[ Cost 1 ]
 
-Use `--sort` to sort the results.
+Campus Gumshoe: Miskatonic University. Character. Cost 1. Skill 2. [CA].
+Graduate Assistant: Miskatonic University. Character. Cost 1. Skill 2. No Icons.
+Reclusive Researcher: Miskatonic University. Character. Cost 1. Skill 1. [II].
 
-    $ cthulhucli --subtype investigator --combat ">=2" --faction-isnt neutral --non-unique --sort cost
-    Peeler: The Agency. Character. 2 Cost. 1 Skill. (C)(C).
-    Safari Hunter: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Night-shift Security: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Keen-eyed Detective: The Agency. Character. 3 Cost. 3 Skill. (C)(C).
-    Crooked Cop: The Agency. Character. 3 Cost. 2 Skill. (C)(C).
-    Freelance Photographer: Syndicate. Character. 4 Cost. 2 Skill. (C)(C)(I).
+[ Cost 2 ]
 
-    Total count: 6
+Absent-Minded Accountant: Miskatonic University. Character. Cost 2. Skill 1. [AI].
+Civil Engineer: Miskatonic University. Character. Cost 2. Skill X. [AI].
+Cryptozoologist: Miskatonic University. Character. Cost 2. Skill 3. [A].
+Field Researcher: Miskatonic University. Character. Cost 2. Skill 1. [I].
+Mad Genius: Miskatonic University. Character. Cost 2. Skill 2. No Icons.
+Strange Librarian: Miskatonic University. Character. Cost 2. Skill 1. [A].
+Student Archaeologist: Miskatonic University. Character. Cost 2. Skill 2. [I].
 
-Use `--group` to visibly divide the results:
+[ Cost 3 ]
 
-    $ cthulhucli --subtype investigator --combat ">=2" --faction-isnt neutral --non-unique --group faction --group cost
-    [ Syndicate | 4 Cost ]
+Anthropology Advisor: Miskatonic University. Character. Cost 3. Skill 2. [C].
+Classicist: Miskatonic University. Character. Cost 3. Skill 3. [III].
+Local Historian: Miskatonic University. Character. Cost 3. Skill 1. [AI].
+Natural Philosopher: Miskatonic University. Character. Cost 3. Skill 3. [AI].
+Professor of Metaphysics: Miskatonic University. Character. Cost 3. Skill 2. [II].
+Seeker of the Profane: Miskatonic University. Character. Cost 3. Skill 2. [AI].
+Two-Fisted Archaeologist: Miskatonic University. Character. Cost 3. Skill 6. No Icons.
 
-    Freelance Photographer: Syndicate. Character. 4 Cost. 2 Skill. (C)(C)(I).
+[ Cost 4 ]
 
-    [ The Agency | 2 Cost ]
+Theology Professor: Miskatonic University. Character. Cost 4. Skill 4. [AAII].
 
-    Peeler: The Agency. Character. 2 Cost. 1 Skill. (C)(C).
+[ Cost 5 ]
 
-    [ The Agency | 3 Cost ]
+Professor of Archaeology: Miskatonic University. Character. Cost 5. Skill 3. [CI].
 
-    Safari Hunter: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Night-shift Security: The Agency. Character. 3 Cost. 3 Skill. (C)(C)(C).
-    Keen-eyed Detective: The Agency. Character. 3 Cost. 3 Skill. (C)(C).
-    Crooked Cop: The Agency. Character. 3 Cost. 2 Skill. (C)(C).
+Total count: 19
+```
 
-    Total count: 6
+Find all characters with struggle boosters, displaying their full text:
 
-Use `--count` to break down the results into statistics.
+```console
+$ cthulhucli --type char --text "\(\([CTAI]\)\)" --regex --show text
+Cairo Mercenary: ((C))((C)).
+Decommissioned Officer: ((C)).
+Local Historian: ((I)).
+Professor of Archaeology: ((I))((I)).
+Elder Shoggoth: ((T)).
+Servant of the Key: ((A)).
+Relentless Stalker: Willpower. Toughness +1.
+When you would uncommit Relentless Stalker from a story, you may choose to not uncommit it until the story is won.
+((C)).
+A Scheme of Byakhees: Forced Response: After you win a (T) struggle at a story to which A Scheme of Byakhees is committed, the losing player must either discard a card from his hand, or drive a character he controls insane.
+((T))((T)).
+Hastur: Lower the cost to play Hastur by 1 for each insane character in play.
+Villainous. Invulnerability. Fast.
+When you win a (T) struggle at a story, place a success token on that story.
+((T)).
 
-    $ cthulhucli -f misk --count keyword --count icons
-    [ Keyword counts ]
+Total count: 9
+```
 
-    Willpower:       11
-    Heroic:          8
-    Loyal:           6
-    Toughness:       5
-    Fast:            2
-    Invulnerability: 2
-    Villainous:      1
-    Resilient:       1
+Find all 0 cost characters and get a breakdown of their faction, icons and subtypes:
 
-    [ Icons counts ]
+```console
+$ cthulhucli --type char --cost 0 --count faction --count icons --count subtype
+[ Faction counts ]
 
-    (A)(I):          23
-    (I):             10
-    (C)(A)(I):       7
-    (A)(I)(I):       7
-    No Icons:        6
-    (I)(I):          6
-    (A)(A)(I):       6
-    (A):             5
-    (A)(A):          5
-    (C)(I)(I):       3
-    (C)(I):          3
-    (A)(A)(A):       2
-    (C):             2
-    (C)(C)(A):       2
-    (A)(A)(I)(I):    2
-    (C)(A):          2
-    (C)(C)(I):       1
-    (C)(C)(A)(I):    1
-    (I)(I)(I):       1
-    (C)(C):          1
-    (C)(A)(A)(I):    1
-    (A)(A)(I)(I)(I): 1
+Neutral:               4
+Yog-Sothoth:           3
+Cthulhu:               2
+Miskatonic University: 2
+Silver Twilight:       2
+Hastur:                2
+Shub-Niggurath:        1
+The Agency:            1
 
-    Total count: 97
+[ Icons counts ]
 
-Use `--regex` for advanced search patterns.
+Terror:                10
+Combat:                4
+Arcane:                3
+Investigation:         1
 
-    $ cthulhucli --text 'put into play .*? from your hand' --regex -v
-    Rampaging Dark Young
-    Servitor. Dark Young.
-    Toughness +2.
-    Response: After Rampaging Dark Young is placed in the discard pile from play, put into play a character with printed cost 3 or lower from your hand or discard pile.
-    Unique: No
-    Faction: Shub-Niggurath
-    Type: Character
-    Cost: 5
-    Skill: 5
-    Icons: (C)
+[ Subtypes counts ]
 
-    Shub-Niggurath
-    Dark Mistress of the Woods
-    Ancient One.
-    Villainous. Invulnerability.
-    Action: Pay 2 to put into play any number of Dark Young characters from your hand and discard pile.
-    Unique: Yes
-    Faction: Shub-Niggurath
-    Type: Character
-    Cost: 6
-    Skill: 8
-    Icons: (T)(T)(C)(C)(A)
+Cultist:               5
+Conspirator:           2
+Servitor:              2
+Investigator:          2
+Ancient One:           1
+Phantom:               1
+Independent:           1
+Monster:               1
+Student:               1
+Artist:                1
+Lodge:                 1
 
-    The Tablets of Nhing
-    Lost Knowledge
-    Artifact.
-    Fated 3.
-    Response: After a character you control is destroyed, exhaust The Tablets of Nhing to put into play a character from your hand whose cost is lower than the destroyed character. Then, place
-    1 success token on The Tablets of Nhing.
-    Unique: Yes
-    Faction: Silver Twilight
-    Type: Support
-    Cost: 2
-
-    Total count: 3
-
-Use `--era` to search old CCG cards as well.
-
-    $ cthulhucli --era ccg --count set
-    [ Set counts ]
-
-    Arkham Edition:           251
-    Eldritch Edition:         251
-    Unspeakable Tales:        145
-    Forbidden Relics:         145
-    Masks of Nyarlathotep:    145
-    Forgotten Cities:         144
-    Promos:                   23
-    Dunwich Denizens:         20
-    Conspiracies of Chaos:    20
-    Spawn of Madness:         20
-    Kingsport Dreams:         20
-    Arkham Premium Edition:   10
-    Eldritch Premium Edition: 10
-
-    Total count: 1204
+Total count: 17
+```
 
 Credits
 -------
 
 * All card data is copyright by [Fantasy Flight Games](https://www.fantasyflightgames.com/).
-* Cthulhu CLI is written by [Petter Nyström](mailto:jimorie@gmail.com).
+* Call of Cthulhu CLI is written by [Petter Nyström](mailto:jimorie@gmail.com).

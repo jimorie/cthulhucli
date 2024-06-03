@@ -3,6 +3,7 @@
 
 import csv
 import json
+import re
 import sys
 
 
@@ -41,6 +42,8 @@ SETS = {
     "PR": "Promos",
 }
 
+BOOSTER_PAT = re.compile(r"(\n|^)((?:\([TCIA]\))+)(\n|$)")
+
 
 def tryint(s, default=None):
     try:
@@ -59,7 +62,14 @@ def decode(text):
         text = text.replace(a, f"TMP1{b}TMP2")
     text = text.replace("TMP1", "[")
     text = text.replace("TMP2", "]")
+    text = fix_boosters(text)
     return text
+
+
+def fix_boosters(text):
+    def replace(m):
+        return m.group(1) + m.group(2).replace("(", "((").replace(")", "))") + m.group(3)
+    return BOOSTER_PAT.sub(replace, text)
 
 
 def main(sourcefile, targetfile):
@@ -111,9 +121,9 @@ def main(sourcefile, targetfile):
                         "combat": icons.count("#"),
                         "arcane": icons.count("$"),
                         "investigation": icons.count("%"),
-                        "transient": "TRANSIENT" in row["OTHER"]
-                        if row["OTHER"]
-                        else False,
+                        "transient": (
+                            "TRANSIENT" in row["OTHER"] if row["OTHER"] else False
+                        ),
                         "steadfast": steadfast,
                         "era": "CCG",
                         "id": None,

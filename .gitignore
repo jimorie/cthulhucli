@@ -1,8 +1,10 @@
 *.pyc
 *.json
+*.egg-info
 build
 dist
-thronescli.egg-info
+sources
 .venv
 venv
-sources
+README.md.test
+testdata

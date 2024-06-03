@@ -57,13 +57,6 @@ class CthulhuReader(JsonLineReader):
             is_flag=True,
             help="Search LCG era cards only.",
         )
-        #yield click.Option(
-        #    ["--era"],
-        #    type=Choice(["CCG", "LCG", "All"], typename="ERA"),
-        #    default="All",
-        #    help="Select the card database to search.",
-        #    show_default=True,
-        #)
 
 
 class Keyword(MarkupText, DelimitedText):

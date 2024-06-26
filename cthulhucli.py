@@ -176,7 +176,7 @@ class ChallengeIcons(Number):
             or "No Icons"
         )
 
-    def format_brief(self, value: tuple[int, int, int, int]) -> str:
+    def format_brief(self, value: tuple[int, int, int, int], show: bool = False) -> str:
         """Returns a brief formatted version of `value` for this field."""
         value = self.format_value(value)
         return (
@@ -195,8 +195,8 @@ class ChallengeIcons(Number):
 
 
 class Unique(Flag):
-    def format_brief(self, value: Any) -> str:
-        return super().format_brief(value) if value else ""
+    def format_brief(self, value: Any, show: bool = False) -> str:
+        return super().format_brief(value, show=show) if value else ""
 
 
 def check_card_type(card_types: set[str]):

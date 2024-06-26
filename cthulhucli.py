@@ -226,6 +226,7 @@ class CthulhuModel(ModelBase):
     keywords = Keyword(keyname="text", optname="keyword", verbosity=None)
     unique = Unique(
         helpname="uniqueness",
+        implied="--type Character --type Support",
         prefetch=check_card_type({"Character", "Support"}),
     )
     faction = Choice(
@@ -242,6 +243,7 @@ class CthulhuModel(ModelBase):
             "Yog-Sothoth": None,
         },
         inclusive=True,
+        implied="--type Character --type Support --type Event --type Conspiracy",
         prefetch=check_card_type({"Character", "Support", "Event", "Conspiracy"}),
     )
     cardtype = Choice(
@@ -253,6 +255,7 @@ class CthulhuModel(ModelBase):
     )
     cost = Number(
         specials=["X"],
+        implied="--type Character --type Support --type Event --type Conspiracy",
         prefetch=check_card_type({"Character", "Support", "Event", "Conspiracy"}),
     )
     skill = Number(

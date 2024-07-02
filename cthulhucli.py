@@ -130,6 +130,15 @@ class Keyword(MarkupText, DelimitedText):
         """Return a version of `value` without HTML tags."""
         return [MarkupText.strip_value(keyword) for keyword in value]
 
+    def sortkey(self, item: Mapping) -> Any:
+        """
+        Returns a comparable-type version of this field's value in `item`,
+        used for sorting.
+        """
+        try:
+            return ". ".join(self.fetch(item))
+        except MissingField:
+            return ""
 
 class ChallengeIcons(Number):
     icons = ("terror", "combat", "arcane", "investigation")

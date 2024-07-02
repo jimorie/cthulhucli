@@ -68,7 +68,10 @@ def decode(text):
 
 def fix_boosters(text):
     def replace(m):
-        return m.group(1) + m.group(2).replace("(", "((").replace(")", "))") + m.group(3)
+        return (
+            m.group(1) + m.group(2).replace("(", "((").replace(")", "))") + m.group(3)
+        )
+
     return BOOSTER_PAT.sub(replace, text)
 
 

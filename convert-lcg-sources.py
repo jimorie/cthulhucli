@@ -98,12 +98,37 @@ def main(sourcefile, targetfile):
                         "unique": trybool(card["unique"].strip()),
                         "subtypes": decode(subtypes),
                         "text": decode(card["text"]),
-                        "cost": tryint(card["cost"]) if card["type"] in {"Character", "Support", "Event", "Conspiracy"} else None,
-                        "skill": tryint(card["skill"]) if card["type"] == "Character" else None,
-                        "terror": tryint(card["terror"]) if card["type"] == "Character" else None,
-                        "combat": tryint(card["combat"]) if card["type"] == "Character" else None,
-                        "arcane": tryint(card["arcane"]) if card["type"] == "Character" else None,
-                        "investigation": tryint(card["investigation"]) if card["type"] == "Character" else None,
+                        "cost": (
+                            tryint(card["cost"])
+                            if card["type"]
+                            in {"Character", "Support", "Event", "Conspiracy"}
+                            else None
+                        ),
+                        "skill": (
+                            tryint(card["skill"])
+                            if card["type"] == "Character"
+                            else None
+                        ),
+                        "terror": (
+                            tryint(card["terror"])
+                            if card["type"] == "Character"
+                            else None
+                        ),
+                        "combat": (
+                            tryint(card["combat"])
+                            if card["type"] == "Character"
+                            else None
+                        ),
+                        "arcane": (
+                            tryint(card["arcane"])
+                            if card["type"] == "Character"
+                            else None
+                        ),
+                        "investigation": (
+                            tryint(card["investigation"])
+                            if card["type"] == "Character"
+                            else None
+                        ),
                         "transient": "Transient" in card["attribute"],
                         "steadfast": (
                             [[card["steadfastfaction"], card["steadfastcount"]]]

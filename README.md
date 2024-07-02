@@ -201,21 +201,38 @@ Find all characters with struggle boosters, displaying their full text:
 
 ```console
 $ cthulhucli --type char --text "\(\([CTAI]\)\)" --regex --show text
-Cairo Mercenary: ((C))((C)).
-Decommissioned Officer: ((C)).
-Local Historian: ((I)).
-Professor of Archaeology: ((I))((I)).
-Elder Shoggoth: ((T)).
-Servant of the Key: ((A)).
-Relentless Stalker: Willpower. Toughness +1.
+Cairo Mercenary
+((C))((C))
+
+Decommissioned Officer
+((C))
+
+Local Historian
+((I))
+
+Professor of Archaeology
+((I))((I))
+
+Elder Shoggoth
+((T))
+
+Servant of the Key
+((A))
+
+Relentless Stalker
+Willpower. Toughness +1.
 When you would uncommit Relentless Stalker from a story, you may choose to not uncommit it until the story is won.
-((C)).
-A Scheme of Byakhees: Forced Response: After you win a (T) struggle at a story to which A Scheme of Byakhees is committed, the losing player must either discard a card from his hand, or drive a character he controls insane.
-((T))((T)).
-Hastur: Lower the cost to play Hastur by 1 for each insane character in play.
+((C))
+
+A Scheme of Byakhees
+Forced Response: After you win a (T) struggle at a story to which A Scheme of Byakhees is committed, the losing player must either discard a card from his hand, or drive a character he controls insane.
+((T))((T))
+
+Hastur
+Lower the cost to play Hastur by 1 for each insane character in play.
 Villainous. Invulnerability. Fast.
 When you win a (T) struggle at a story, place a success token on that story.
-((T)).
+((T))
 
 Total count: 9
 ```

@@ -25,7 +25,7 @@ if typing.TYPE_CHECKING:
     import collections
 
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 
 CARDS_ENV = "CTHULHUCLI_DATA"
@@ -199,15 +199,6 @@ class Unique(Flag):
         return super().format_brief(value, show=show) if value else ""
 
 
-def check_card_type(card_types: set[str]):
-    def prefetch(item):
-        if item["type"] not in card_types:
-            raise MissingField("Irrelevant for card type")
-        return item
-
-    return prefetch
-
-
 class CthulhuModel(ModelBase):
     __version__ = __version__
 
@@ -226,8 +217,6 @@ class CthulhuModel(ModelBase):
     keywords = Keyword(keyname="text", optname="keyword", verbosity=None)
     unique = Unique(
         helpname="uniqueness",
-        implied="--type Character --type Support",
-        prefetch=check_card_type({"Character", "Support"}),
     )
     faction = Choice(
         choices={
@@ -243,8 +232,6 @@ class CthulhuModel(ModelBase):
             "Yog-Sothoth": None,
         },
         inclusive=True,
-        implied="--type Character --type Support --type Event --type Conspiracy",
-        prefetch=check_card_type({"Character", "Support", "Event", "Conspiracy"}),
     )
     cardtype = Choice(
         choices=["Character", "Conspiracy", "Event", "Story", "Support"],
@@ -255,13 +242,9 @@ class CthulhuModel(ModelBase):
     )
     cost = Number(
         specials=["X"],
-        implied="--type Character --type Support --type Event --type Conspiracy",
-        prefetch=check_card_type({"Character", "Support", "Event", "Conspiracy"}),
     )
     skill = Number(
         specials=["X"],
-        implied="--type Character",
-        prefetch=check_card_type({"Character"}),
     )
     icons = ChallengeIcons()
     release_set = Text(keyname="set", realname="Set", verbosity=2)

@@ -249,6 +249,7 @@ class CthulhuModel(ModelBase):
         keyname="type",
         optname="type",
         realname="Card Type",
+        optalias="-t",
         inclusive=True,
     )
     cost = Number(

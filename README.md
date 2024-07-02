@@ -276,6 +276,20 @@ Lodge:                 1
 Total count: 17
 ```
 
+Referencing a field only found on a certain card type automatically filters out other card types.
+
+```console
+$ python cthulhucli.py --sort faction --count "card type"
+[ Card Type counts ]
+
+Character:  1269
+Support:    734
+Event:      657
+Conspiracy: 59
+
+Total count: 2719
+```
+
 Credits
 -------
 

@@ -140,6 +140,7 @@ class Keyword(MarkupText, DelimitedText):
         except MissingField:
             return ""
 
+
 class ChallengeIcons(Number):
     icons = ("terror", "combat", "arcane", "investigation")
     iconicons = (("T", "green"), ("C", "blue"), ("A", "magenta"), ("I", "yellow"))
@@ -241,6 +242,7 @@ class CthulhuModel(ModelBase):
             "Yog-Sothoth": None,
         },
         inclusive=True,
+        autofilter=True,
     )
     cardtype = Choice(
         choices=["Character", "Conspiracy", "Event", "Story", "Support"],
@@ -251,11 +253,13 @@ class CthulhuModel(ModelBase):
     )
     cost = Number(
         specials=["X"],
+        autofilter=True,
     )
     skill = Number(
         specials=["X"],
+        autofilter=True,
     )
-    icons = ChallengeIcons()
+    icons = ChallengeIcons(autofilter=True)
     release_set = Text(keyname="set", realname="Set", verbosity=2)
     restricted = Flag(verbosity=2)
     banned = Flag(verbosity=2)

@@ -13,7 +13,7 @@ TAG_PATTERN = re.compile("<.*?>")
 def tryint(s, default=0):
     try:
         return int(s)
-    except ValueError:
+    except (ValueError, TypeError):
         if s == "X":
             return s
         return default
@@ -82,6 +82,13 @@ def main(sourcefile, targetfile):
                 subtypes = card["subtype"].strip()
                 if subtypes and not subtypes.endswith("."):
                     subtypes += "."
+                if card["type"] == "Story":
+                    if card["faction"] == "Neutral":
+                        card["faction"] = None
+                    else:
+                        print("Story with faction:", card)
+                    card["cost"] = None
+                    card["skill"] = None
                 json.dump(
                     {
                         "name": decode(card["name"]),
@@ -91,12 +98,12 @@ def main(sourcefile, targetfile):
                         "unique": trybool(card["unique"].strip()),
                         "subtypes": decode(subtypes),
                         "text": decode(card["text"]),
-                        "cost": tryint(card["cost"]),
-                        "skill": tryint(card["skill"]),
-                        "terror": tryint(card["terror"]),
-                        "combat": tryint(card["combat"]),
-                        "arcane": tryint(card["arcane"]),
-                        "investigation": tryint(card["investigation"]),
+                        "cost": tryint(card["cost"]) if card["type"] in {"Character", "Support", "Event", "Conspiracy"} else None,
+                        "skill": tryint(card["skill"]) if card["type"] == "Character" else None,
+                        "terror": tryint(card["terror"]) if card["type"] == "Character" else None,
+                        "combat": tryint(card["combat"]) if card["type"] == "Character" else None,
+                        "arcane": tryint(card["arcane"]) if card["type"] == "Character" else None,
+                        "investigation": tryint(card["investigation"]) if card["type"] == "Character" else None,
                         "transient": "Transient" in card["attribute"],
                         "steadfast": (
                             [[card["steadfastfaction"], card["steadfastcount"]]]

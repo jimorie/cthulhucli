@@ -25,7 +25,7 @@ if typing.TYPE_CHECKING:
     import collections
 
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 
 CARDS_ENV = "CTHULHUCLI_DATA"
@@ -249,6 +249,7 @@ class CthulhuModel(ModelBase):
         keyname="type",
         optname="type",
         realname="Card Type",
+        helpname="type",
         optalias="-t",
         inclusive=True,
     )

@@ -51,8 +51,8 @@ Field filters:
   --non-unique            Filter on non-uniqueness.
   --faction FACTION       Filter on matching faction.
   --faction-isnt FACTION  Filter on non-matching faction.
-  --type CARD TYPE        Filter on matching card type.
-  --type-isnt CARD TYPE   Filter on non-matching card type.
+  -t, --type TYPE         Filter on matching type.
+  --type-isnt TYPE        Filter on non-matching type.
   --cost NUMBER           Filter on matching cost (number comparison).
   --skill NUMBER          Filter on matching skill (number comparison).
   --terror NUMBER         Filter on number of terror icons.
@@ -66,19 +66,18 @@ Field filters:
   --non-banned            Filter on non-banned.
 
 Where:
-  CARD TYPE  One of: character, conspiracy, event, story, support.
-  FACTION    One of: agency, cthulhu, hastur, miskatonic university, neutral,
-             shub-niggurath, silver twilight, syndicate, the agency, yog-
-             sothoth.
-  FIELD      One of: banned, card type, cost, descriptor, faction, icons,
-             keywords, name, restricted, set, skill, subtypes, text,
-             uniqueness.
-  NUMBER     A number optionally prefixed by one of the supported comparison
-             operators: ==, =, !=, !, <=, <, >=, >. With == being the default
-             if only a number is given.
-  TEXT       A text partially matching the field value. The --case, --regex
-             and --exact options can be applied. If prefixed with ! the match
-             is negated.
+  FACTION  One of: agency, cthulhu, hastur, miskatonic university, neutral,
+           shub-niggurath, silver twilight, syndicate, the agency, yog-
+           sothoth.
+  FIELD    One of: banned, cost, descriptor, faction, icons, keywords, name,
+           restricted, set, skill, subtypes, text, type, uniqueness.
+  NUMBER   A number optionally prefixed by one of the supported comparison
+           operators: ==, =, !=, !, <=, <, >=, >. With == being the default
+           if only a number is given.
+  TEXT     A text partially matching the field value. The --case, --regex
+           and --exact options can be applied. If prefixed with ! the match
+           is negated.
+  TYPE     One of: character, conspiracy, event, story, support.
 ```
 
 Examples
@@ -279,7 +278,7 @@ Total count: 17
 Referencing a field only found on a certain card type automatically filters out other card types.
 
 ```console
-$ python cthulhucli.py --sort faction --count "card type"
+$ python cthulhucli.py --sort faction --count type
 [ Card Type counts ]
 
 Character:  1269

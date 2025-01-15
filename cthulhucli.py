@@ -10,6 +10,7 @@ import click
 from clicksearch import (
     Choice,
     DelimitedText,
+    FieldBase,
     Flag,
     JsonLineReader,
     MarkupText,
@@ -68,7 +69,6 @@ class Keyword(MarkupText, DelimitedText):
         "Invulnerability",
         "Loyal",
         "Resilient",
-        "Steadfast",
         "Toughness",
         "Transient",
         "Villainous",
@@ -216,6 +216,44 @@ class Unique(Flag):
         return super().format_brief(value, show=show) if value else ""
 
 
+class KeyValuePairs(FieldBase):
+    def fetch(
+        self, item: Mapping, default: Any | type = MissingField
+    ) -> dict[Any, Any]:
+        """Returns the key value pairs as a `dict`."""
+        return dict(super().fetch(item, default=default))
+
+    def format_value(self, value: dict) -> str:
+        """Return a string representation of `value`."""
+        return (
+            " ".join(self.format_single(k, v) for k, v in value.items())
+            or self.format_null()
+        )
+
+    def format_single(self, key: Any, value: Any) -> str:
+        """Return a string representation of a single key value pair."""
+        return f"{value} {key}."
+
+    def sortkey(self, item: Mapping) -> Any:
+        """
+        Returns a comparable-type version of this field's value in `item`, used
+        for sorting.
+        """
+        try:
+            return sum(self.fetch(item).values())
+        except MissingField:
+            return 0
+
+    @fieldfilter("--{optname}", help="Filter on {helpname}.")
+    def filter_key_value_pairs(self, arg: Any, value: Any, options: dict) -> bool:
+        """Filter on key value data."""
+        return arg in value
+
+
+class ChoiceValuePairs(KeyValuePairs, Choice):
+    pass
+
+
 class CthulhuModel(ModelBase):
     __version__ = __version__
 
@@ -263,6 +301,13 @@ class CthulhuModel(ModelBase):
     cost = Number(
         specials=["X"],
         autofilter=True,
+    )
+    steadfast = ChoiceValuePairs(
+        choices=faction.choices,
+        typename="FACTION",
+        autofilter=True,
+        verbosity=1,
+        skip_filters=[Choice.filter_text, Choice.filter_text_isnt, Text.filter_text],
     )
     skill = Number(
         specials=["X"],

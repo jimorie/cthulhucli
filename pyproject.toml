@@ -7,7 +7,6 @@ name = "cthulhucli"
 dynamic = ["version"]
 description = "A command line interface for browsing cards from the Call of Cthulhu CCG and LCG."
 readme = "README.md"
-license = ""
 authors = [
     { name = "Petter Nyström", email = "jimorie@gmail.com" },
 ]

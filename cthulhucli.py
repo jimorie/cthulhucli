@@ -154,7 +154,7 @@ class ChallengeIcons(Number):
         """Returns all icon values in `item` as a tuple."""
         if item["type"] not in ("Character", "Conspiracy"):
             raise MissingField("Irrelevant for type")
-        return tuple(self.validate(item.get(icon, 0)) for icon in self.icons)
+        return tuple(self.validate(item.get(icon) or 0) for icon in self.icons)
 
     @fieldfilter("--terror")
     def filter_terror(self, arg: Callable, value: Any, options: dict) -> bool:
@@ -202,6 +202,13 @@ class ChallengeIcons(Number):
                 counts[icon.title()] += count
         except MissingField:
             pass
+
+    def sortkey(self, item: Mapping) -> Any:
+        """
+        Returns a comparable-type version of this field's value in `item`,
+        used for sorting.
+        """
+        return sum(n * i + n * 10 for i, n in enumerate(self.fetch(item)))
 
 
 class Unique(Flag):

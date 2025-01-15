@@ -25,7 +25,7 @@ if typing.TYPE_CHECKING:
     import collections
 
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 
 
 CARDS_ENV = "CTHULHUCLI_DATA"
